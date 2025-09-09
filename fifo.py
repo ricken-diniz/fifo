@@ -1,27 +1,13 @@
-import threading
-import os
 
-os.mkfifo('/tmp/fifow')
-os.mkfifo('/tmp/fifor')
-
-me = input('Write your name: ')
-res = f'{me} > Hey you! My name is {me}, what"s your?'
-condition = True
-
-fifow = open('/tmp/fifow', 'w')
-fifor = open('/tmp/fifor', 'r')
+while (w:=input('me > ')) != 'sair':
     
-while True:
+    print('\033[94m Waiting him receive the message... \033[0m')
 
-    fifow.write(res)
+    fifow = open('/tmp/fifow', 'w')
+    fifow.write(w+'\n')
     fifow.flush()
 
-    if condition:
-        user = fifor.read()
-        res_user = user
-        condition = False
-    else:
-        res_user = fifor.read()
+    print('\033[94m Received! Waiting him write the response... \033[0m')
 
-    print(f'{user} > {res_user}')
-    res = me + '> ' + input('{me} > ')
+    fifor = open('/tmp/fifor', 'r')
+    print(fifor.read())
